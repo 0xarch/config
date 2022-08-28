@@ -1,0 +1,1 @@
+/home/anxus/.config/waybar/mediaplayer.sh
