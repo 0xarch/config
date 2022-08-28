@@ -4,13 +4,13 @@
 }
 window {
 	margin:5px;
-	background-color:rgb(55,55,55);
+	background-color:#404452;
 	border-radius:10px;
 	font-family:"JetBrains Mono";
 }
 
 #outer-box{
-	background-color:rgb(55,55,55);
+	background-color:#404452;
 	border-radius:10px;
 }
 
@@ -21,7 +21,7 @@ window {
 }
 
 #input{
-	background-color:rgba(55,55,55,55);
+	background-color:#404452;
 	color:white;
 	border-radius:5px;
 	border:3px solid #33afea;
