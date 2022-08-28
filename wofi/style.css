@@ -1,1 +1,40 @@
-/home/anxus/.config/wofi/style.css
+@font-face{
+	font-family:JB;
+	src:url("./JB-Mono.ttf");
+}
+window {
+	margin:5px;
+	background-color:rgb(55,55,55);
+	border-radius:10px;
+	font-family:"JetBrains Mono";
+}
+
+#outer-box{
+	background-color:rgb(55,55,55);
+	border-radius:10px;
+}
+
+#inner-box{
+	margin:5px;
+	color:white;
+	border-radius:7px;
+}
+
+#input{
+	background-color:rgba(55,55,55,55);
+	color:white;
+	border-radius:5px;
+	border:3px solid #33afea;
+	margin:5px;
+
+#text{
+	background-color:white;
+}
+
+#entry{
+	border-radius:6px;
+}
+#entry:selected{
+	border-radius:5px;
+	background-color:#33afea;
+}

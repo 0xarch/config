@@ -1,1 +1,3 @@
-/home/anxus/.config/waybar/weather
+#!/bin/sh
+sleep 5
+sh -c 'curl wttr.in/?format="%c++%C+,%f++日出:%S,日落:%s\n"'
