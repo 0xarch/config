@@ -1,0 +1,2 @@
+#!/bin/sh
+eww update workspace_active="$($HOME/.config/eww/workspace)"

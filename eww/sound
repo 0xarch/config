@@ -1,0 +1,3 @@
+#!/bin/bash
+sound=$(amixer -c 1 get Master | grep -o "[[0-9]*%]" | grep -o "[0-9]*")
+echo "$sound"

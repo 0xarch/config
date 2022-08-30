@@ -1,0 +1,82 @@
+(defwindow bar
+           :monitor 0
+           :geometry (geometry :x "0%"
+                               :y "0%"
+                               :width "100%"
+                               :height "16px"
+                               :anchor "top center")
+	:stacking "fg"
+	:reserve (struts :distance "16px" :side "top")
+	:windowtype "dock"
+	:wm-ignore false
+	:exclusive true
+	:focusable false
+	(labeled-container :name "Main")
+)
+
+(defwidget labeled-container [name] 
+	(box :class "container"
+	(left-container :name "left")
+	(center-container :name "center")
+	(right-container :name "right")
+	))
+(defwidget right-container [name]
+	(box :class "container"
+	(soundWidget)
+	(backlightWidget)
+	(right-children)
+	))
+(defwidget left-container [name]
+	(box :class "container"
+	workspace_active
+	weather
+))
+(defwidget center-container [name]
+	(box :class "container"
+	(docks)
+))
+(defwidget right-children []
+	(box :class "container"
+	battery
+	time
+))
+(defwidget docks []
+	(box :class "container"
+	(button :onclick "exec firefox" "")
+	(button :onclick "exec wezterm" "")
+	(button :onclick "exec icalingua" "")
+	(button :onclick "exec netease-cloud-music" "")
+	(button :onclick "exec geany" "")
+	(button :onclick "exec hmcl-new" "")
+	(button :onclick "exec /opt/ksp/AppRun" "")
+	(button :onclick "exec /opt/bsg/AppRun" "")
+))
+(defvar data-visible true)
+(defpoll time :interval "1s" :initial "initial value" :run-while data-visible
+'date +%H:%M:%S')
+(defpoll weather :interval "600s" :initial "None" :run-while data-visible
+'curl "https://wttr.in/?format=%c++%C+,+%t&lang=zh"')
+(defpoll sound :interval "60s" :initial "initial value" :run-while data-visible
+'./sound')
+(defwidget soundWidget []
+	(box   :orientation "horizontal"
+		:halign "center"
+	"S"sound
+	(box
+	(scale :orientation "h" :value sound :max 100 :min 0 :onchange "amixer -c 1 set Master {}% ; eww update sound=$(./sound)")
+)))
+(defpoll backlight :interval "60s" :initial "initial value" :run-while data-visible
+'./backlight')
+(defwidget backlightWidget []
+        (box    :orientation "horizontal"
+                :halign "center"
+        "B"backlight
+	(box
+	(scale :orientation "h" :value backlight :max 100 :min 0 :onchange "brightnessctl s {}% ; eww update backlight=$(./backlight)")
+)))
+(defpoll memory :interval "5s" :initial "initial value" :run-while data-visible
+'cat /proc/meminfo | grep -E "Mem[T|F]" | grep -E "[0-9]+\ kB"')
+(defpoll workspace_active :interval "600s" :initial "initial value" :run-while data-visible
+'./workspace')
+(defpoll battery :interval "15s" :initial "initial value" :run-while data-visible
+'./battery')

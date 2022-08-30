@@ -1,0 +1,4 @@
+#!/bin/bash
+activeWorkspace=$(hyprctl monitors | grep "active workspace"| awk '{print $3}')
+Workspaces=$(hyprctl workspaces| grep "ID"| awk '{print $3}')
+echo ${Workspaces/$activeWorkspace/[$activeWorkspace]}
