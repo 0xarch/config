@@ -3,7 +3,7 @@
            :geometry (geometry :x "0%"
                                :y "0%"
                                :width "100%"
-                               :height "16px"
+                               :height "35px"
                                :anchor "top center")
 	:stacking "fg"
 	:reserve (struts :distance "16px" :side "top")
@@ -13,70 +13,101 @@
 	:focusable false
 	(labeled-container :name "Main")
 )
-
+(defvar data-visible true)
+(defpoll time :interval "1s" :initial "initial value" :run-while data-visible
+'date +%H:%M:%S')
+(defpoll weather :interval "1200s" :initial "None" :run-while data-visible
+'./infos -w')
+(defpoll sound :interval "60s" :initial 50 :run-while data-visible
+'./sound')
+(defpoll memory :interval "5s" :initial "Ukn" :run-while data-visible
+'./hardware -m')
+(defpoll temprt :interval "5s" :initial "Ukn" :run-while data-visible
+'./hardware -t')
+(defpoll workspace :interval "60s" :initial "[1]" :run-while data-visible
+'./window -s')
+(defpoll battery :interval "15s" :initial "initial value" :run-while data-visible
+'./hardware -b')
+(defpoll wifi :interval "15s" :initial "None" :run-while data-visible
+'./wifi')
+(defpoll xwayland :interval "60s" :initial "Unknown" :run-while data-visible
+'./window -x')
+(defpoll floating :interval "60s" :initial "U" :run-while data-visible
+'./window -f')
+(defpoll backlight :interval "60s" :initial 50 :run-while data-visible
+'./backlight')
 (defwidget labeled-container [name] 
 	(box :class "container"
-	(left-container :name "left")
-	(center-container :name "center")
-	(right-container :name "right")
+	(left-container)
+	(center-container)
+	(right-container)
 	))
-(defwidget right-container [name]
+(defwidget right-container []
 	(box :class "container"
-	(soundWidget)
-	(backlightWidget)
+	(control)
 	(right-children)
 	))
-(defwidget left-container [name]
+(defwidget left-container []
 	(box :class "container"
-	workspace_active
+	workspace
+	memory
+	temprt
+	floating
 	weather
 ))
-(defwidget center-container [name]
+(defwidget center-container []
 	(box :class "container"
 	(docks)
 ))
 (defwidget right-children []
 	(box :class "container"
+	wifi
 	battery
 	time
 ))
+(defwidget control []
+	(box :class "container"
+	(sysctlWidget)
+	(soundWidget)
+	(backlightWidget)
+))
 (defwidget docks []
 	(box :class "container"
-	(button :onclick "exec firefox" "")
-	(button :onclick "exec wezterm" "")
+	(button :onclick "wezterm" "")
 	(button :onclick "exec icalingua" "")
 	(button :onclick "exec netease-cloud-music" "")
-	(button :onclick "exec geany" "")
-	(button :onclick "exec hmcl-new" "")
+	(button :onclick "geany %u" "")
+	(button :onclick "./exc hmcl-new" "")
 	(button :onclick "exec /opt/ksp/AppRun" "")
 	(button :onclick "exec /opt/bsg/AppRun" "")
+	(button :onclick "exec wps" "")
+        (button :onclick "exec et" "")
+        (button :onclick "exec wpp" "")
 ))
-(defvar data-visible true)
-(defpoll time :interval "1s" :initial "initial value" :run-while data-visible
-'date +%H:%M:%S')
-(defpoll weather :interval "600s" :initial "None" :run-while data-visible
-'curl "https://wttr.in/?format=%c++%C+,+%t&lang=zh"')
-(defpoll sound :interval "60s" :initial "initial value" :run-while data-visible
-'./sound')
+(defwidget windowInfoWidget []
+	(box	:orientation "horizontal"
+		:halign "center"
+	(button :onclick "./windowinfo_update" "")
+	xwayland
+))
+(defwidget sysctlWidget []
+	(box	:orientation "horizontal"
+		:halign "center"
+	(button :onclick "systemctl suspend" "⏾")
+	(button :onclick "systemctl poweroff" "")
+	(button :onclick "systemctl reboot" "")
+))
 (defwidget soundWidget []
 	(box   :orientation "horizontal"
 		:halign "center"
-	"S"sound
-	(box
-	(scale :orientation "h" :value sound :max 100 :min 0 :onchange "amixer -c 1 set Master {}% ; eww update sound=$(./sound)")
-)))
-(defpoll backlight :interval "60s" :initial "initial value" :run-while data-visible
-'./backlight')
+	""
+	(scale :value sound :draw-value true :onchange "amixer -c 1 set Master {}%;eww update sound=$(./sound)")
+))
+
 (defwidget backlightWidget []
         (box    :orientation "horizontal"
                 :halign "center"
-        "B"backlight
-	(box
-	(scale :orientation "h" :value backlight :max 100 :min 0 :onchange "brightnessctl s {}% ; eww update backlight=$(./backlight)")
-)))
-(defpoll memory :interval "5s" :initial "initial value" :run-while data-visible
-'cat /proc/meminfo | grep -E "Mem[T|F]" | grep -E "[0-9]+\ kB"')
-(defpoll workspace_active :interval "600s" :initial "initial value" :run-while data-visible
-'./workspace')
-(defpoll battery :interval "15s" :initial "initial value" :run-while data-visible
-'./battery')
+        ""
+	(scale :value backlight :draw-value true :onchange "brightnessctl s {}%;eww update backlight=$(./backlight)")
+))
+

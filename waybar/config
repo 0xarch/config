@@ -4,27 +4,14 @@
     "height": 30, // Waybar height
     // "width": 1366, // Waybar width
     // Choose the order of the modules
-    "modules-left": ["wlr/workspaces", "sway/mode", "custom/weather"],
-    "modules-center": ["wlr/window"],
+    "modules-left": ["custom/weather"],
+    "modules-center": ["wlr/taskbar"],
     "modules-right": ["backlight","pulseaudio", "network", "cpu", "memory", "battery", "tray", "clock"],
-    "sway/workspaces": {
-        "disable-scroll": true,
-        "all-outputs": false,
+    "wlr/workspaces": {
         "format": "{icon}",
         "format-icons": {
-            "1:web": "",
-            "2:code": "",
-            "3:term": "",
-            "4:work": "",
-            "5:music": "",
-            "6:docs": "",
-            "urgent": "",
             "focused": "",
-            "default": ""
         }
-    },
-    "sway/mode": {
-        "format": "<span style=\"italic\">{}</span>"
     },
     "tray": {
         // "icon-size": 21,
@@ -85,4 +72,10 @@
 	//"invertal":30,
         "exec": "$HOME/.config/waybar/weather", // Script in resources folder
     }
+}
+{
+	"layer":"bottom",
+	"postition":"bottom",
+	"height":30,
+	"modules-center":["wlr/taskbar"]
 }

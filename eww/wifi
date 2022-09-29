@@ -1,0 +1,3 @@
+#!/bin/sh
+wifi=$(nmcli c | grep "wlp1s0" | awk '{print $1}')
+echo $wifi

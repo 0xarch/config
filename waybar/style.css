@@ -1,14 +1,15 @@
 * {
     border: none;
     border-radius: 0;
-    font-family: "JetBrians Mono";
-    font-size: 13px;
+    font-family: "JetBrains Mono";
+    font-size: 16px;
     min-height: 0;
 }
 
 window#waybar {
     background: #4b5162;
     color: white;
+    font-family:"JetBrains Mono";
 }
 
 #window {
@@ -16,20 +17,16 @@ window#waybar {
 }
 
 #workspaces button {
-    padding: 0 5px;
-    background: transparent;
+    padding: 0px 5px;
+
+    background: #404452;
     color: white;
-    border-top: 2px solid transparent;
+    border-top: 2px solid white;
 }
 
 #workspaces button.focused {
     color: #c9545d;
     border-top: 2px solid #c9545d;
-}
-
-#mode {
-    background: #64727D;
-    border-bottom: 3px solid white;
 }
 
 #clock, #battery, #cpu, #memory, #network, #pulseaudio, #backlight, #custom-weather, #tray {
